@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="${pageTitle} ?: #{app.title}">Gundam Collection</title>
+
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="rx78-theme">
+<header class="navbar" th:fragment="body/header" th:with="currentUrl=${#httpServletRequest != null ? #httpServletRequest.requestURI : '/'}">
+    <div class="wrap">
+        <a class="brand" th:href="@{/}" th:text="#{app.title}">Gundam Collection</a>
+        <nav class="navlinks">
+            <a th:href="@{/}"
+               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI == '/'} ? 'active' : ''"
+               th:text="#{navbar.home}">Início</a>
+            <a th:href="@{/kits}"
+               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/kits')} ? 'active' : ''"
+               th:text="#{navbar.manager}">Gerenciador da Coleção</a>
+            <a th:href="@{/relatorios}"
+               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/relatorios')} ? 'active' : ''"
+               th:text="#{navbar.reports}">Relatórios</a>
+            <a th:href="@{/sobre}"
+               th:classappend="${#httpServletRequest != null and #httpServletRequest.requestURI.startsWith('/sobre')} ? 'active' : ''"
+               th:text="#{navbar.about}">Sobre</a>
+            <div class="lang-switch">
+                <a class="btn btn-outline btn-sm" th:href="@{|${currentUrl}?lang=pt-BR|}">PT</a>
+                <a class="btn btn-outline btn-sm" th:href="@{|${currentUrl}?lang=en|}">EN</a>
+                <a class="btn btn-outline btn-sm" th:href="@{|${currentUrl}?lang=ja|}">日本語</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main class="container" th:fragment="content">
+</main>
+
+
+<footer class="footer" th:fragment="body/footer">
+    <div class="wrap">
+        <div class="author-info" style="margin-bottom: 8px;" th:text="#{footer.author}">Criado por ...</div>
+        <div class="project-info" style="color: var(--text-dim); margin-bottom: 16px;">
+            <a href="https://github.com/carmipa/Java_Advanced_CP_2SEM" target="_blank" rel="noopener noreferrer" th:text="#{footer.repo}">
+                Repositório do Projeto no GitHub
+            </a>
+        </div>
+
+        <div class="badges">
+            <span class="badge">Java</span>
+            <span class="badge">Spring Boot</span>
+            <span class="badge">Thymeleaf</span>
+            <span class="badge">Gradle</span>
+            <span class="badge">PostgreSQL</span>
+            <span class="badge">Docker</span>
+            <span class="badge">Compose</span>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

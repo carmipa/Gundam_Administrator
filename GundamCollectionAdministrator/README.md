@@ -13,19 +13,17 @@ Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, fi
 ---
 
 ## Índice
-- [Gundam Collection Administrator](#gundam-collection-administrator)
-  - [Índice](#índice)
-  - [Arquitetura](#arquitetura)
-  - [Funcionalidades](#funcionalidades)
-  - [Modelagem de Domínio](#modelagem-de-domínio)
-  - [Requisitos e Setup](#requisitos-e-setup)
-  - [Execução](#execução)
-  - [Rotas Principais](#rotas-principais)
-  - [Camadas e Pacotes](#camadas-e-pacotes)
-  - [Migrações de Banco](#migrações-de-banco)
-  - [Configurações](#configurações)
-  - [Troubleshooting](#troubleshooting)
-  - [Roadmap](#roadmap)
+- [Arquitetura](#arquitetura)
+- [Funcionalidades](#funcionalidades)
+- [Modelagem de Domínio](#modelagem-de-domínio)
+- [Requisitos e Setup](#requisitos-e-setup)
+- [Execução](#execução)
+- [Rotas Principais](#rotas-principais)
+- [Camadas e Pacotes](#camadas-e-pacotes)
+- [Migrações de Banco](#migrações-de-banco)
+- [Configurações](#configurações)
+- [Troubleshooting](#troubleshooting)
+- [Roadmap](#roadmap)
 
 ---
 

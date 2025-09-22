@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" th:with="pageTitle=#{kits.details.title}">
+<head th:replace="layout :: head"></head>
+<body class="rx78-theme">
+<header th:replace="layout :: body/header"></header>
+
+<main class="container">
+    <a th:href="@{/kits}" style="margin-bottom: 1rem; display: inline-block;" th:text="#{kits.details.back_to_list}">← Voltar para a lista</a>
+    <h2 th:text="${kit.modelo}">Modelo do Kit</h2>
+
+    <section class="card">
+        <h3 th:text="#{kits.details.tech_sheet}">// Ficha Técnica</h3>
+        <div class="spec-sheet">
+            <p><strong><span th:text="#{kits.details.grade_label}">Grade:</span></strong> <span th:text="${kit.grade != null ? kit.grade.nome : '-'}"></span></p>
+            <p><strong><span th:text="#{kits.details.scale_label}">Escala:</span></strong> <span th:text="${kit.escala != null ? kit.escala.rotulo : '-'}"></span></p>
+            <p><strong><span th:text="#{kits.details.height_label}">Altura Padrão:</span></strong> <span th:text="${kit.alturaPadrao != null ? kit.alturaPadrao.descricao : '-'}"></span></p>
+            <p><strong><span th:text="#{kits.details.universe_label}">Universo:</span></strong> <span th:text="${kit.universo != null ? kit.universo.sigla + ' — ' + kit.universo.nome : '-'}"></span></p>
+            <p><strong><span th:text="#{kits.details.manufacturer_label}">Fabricante:</span></strong> <span th:text="${kit.fabricante}"></span></p>
+            <p><strong><span th:text="#{kits.details.price_label}">Preço:</span></strong> <span th:text="${'R$ ' + #numbers.formatDecimal(kit.preco, 1, 'POINT', 2, 'COMMA')}"></span></p>
+            <p><strong><span th:text="#{kits.details.purchase_date_label}">Data da Compra:</span></strong> <span th:text="${kit.dataCompra != null ? #temporals.format(kit.dataCompra, 'dd/MM/yyyy') : '-'}"></span></p>
+            <p><strong><span th:text="#{kits.details.assembly_hours_label}">Horas de Montagem:</span></strong>
+                <span th:text="${kit.horasMontagem != null ? #messages.msg('units.hours_value', kit.horasMontagem) : '-'}"></span>
+            </p>
+        </div>
+
+        <div class="form-grid mt-3">
+            <figure th:if="${kit.capaUrl}">
+                <img th:src="${kit.capaUrl}" th:alt="#{kits.details.cover_image_alt}">
+                <figcaption th:text="#{kits.details.cover_image_caption}">Imagem de Capa (Box Art)</figcaption>
+            </figure>
+            <figure th:if="${kit.fotoCaixaUrl}">
+                <img th:src="${kit.fotoCaixaUrl}" th:alt="#{kits.form.box_photo_label}">
+                <figcaption th:text="#{kits.form.box_photo_label}">Foto da Caixa</figcaption>
+            </figure>
+            <figure th:if="${kit.fotoMontagemUrl}">
+                <img th:src="${kit.fotoMontagemUrl}" th:alt="#{kits.details.assembly_image_alt}">
+                <figcaption th:text="#{kits.details.assembly_image_caption}">Foto do Modelo Montado</figcaption>
+            </figure>
+        </div>
+
+        <div class="mt-4" th:if="${kit.videoMontagemUrl != null and !kit.videoMontagemUrl.isEmpty()}">
+            <h3 th:text="#{kits.details.assembly_video_label}">// Vídeo da Montagem</h3>
+            <th:block th:with="videoId=${#strings.contains(kit.videoMontagemUrl, 'watch?v=') ? #strings.substringAfter(kit.videoMontagemUrl, 'watch?v=') : (#strings.contains(kit.videoMontagemUrl, 'youtu.be/') ? #strings.substringAfter(kit.videoMontagemUrl, 'youtu.be/') : null)}">
+                <div th:if="${videoId != null}" class="video-container">
+                    <iframe th:src="@{'https://www.youtube.com/embed/' + ${#strings.arraySplit(videoId, '&')[0]}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </th:block>
+        </div>
+
+        <div class="mt-4" th:if="${kit.observacao != null and !kit.observacao.isEmpty()}">
+            <h3 th:text="#{kits.details.observation_heading}">// Log de Montagem</h3>
+            <p th:text="${kit.observacao}" style="color: var(--text-dim); white-space: pre-wrap;"></p>
+        </div>
+
+        <div class="actions mt-4" style="display:flex; flex-wrap:wrap; gap:.75rem; border-top: 1px solid var(--ring); padding-top: 1.5rem;">
+            <a class="btn btn-blue" th:href="@{|/kits/${kit.id}/editar|}" th:text="#{kits.details.edit_button}">Editar</a>
+            <form th:action="@{|/kits/${kit.id}/deletar|}" method="post" onsubmit="return confirm('Confirmar exclusão desta unidade?');">
+                <button class="btn btn-red" type="submit" th:text="#{kits.details.delete_button}">Excluir</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="layout :: body/footer"></footer>
+</body>
+</html>

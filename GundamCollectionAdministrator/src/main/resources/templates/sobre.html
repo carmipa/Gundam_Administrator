@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" th:with="pageTitle=#{about.title}">
+<head th:replace="~{layout :: head}"></head>
+<body class="rx78-theme">
+<header th:replace="~{layout :: body/header}"></header>
+
+<main class="container">
+    <section class="card">
+        <h2 th:text="#{about.heading}">// Briefing do Projeto: Gundam Collection</h2>
+        <p style="color: var(--text-dim);" th:text="#{about.description}">Descrição</p>
+
+        <hr style="border-color: var(--ring); margin: 2rem 0;">
+
+        <h3 th:text="#{about.features}">// Guia de Funcionalidades</h3>
+        <div class="spec-sheet">
+            <p><strong th:text="#{about.feature.full_registry_title}">Cadastro Completo:</strong> <span th:text="#{about.feature.full_registry_text}">Texto</span></p>
+            <p><strong th:text="#{about.feature.gallery_title}">Galeria de Imagens:</strong> <span th:text="#{about.feature.gallery_text}">Texto</span></p>
+            <p><strong th:text="#{about.feature.reports_title}">Relatórios Financeiros:</strong> <span th:text="#{about.feature.reports_text}">Texto</span></p>
+            <p><strong th:text="#{about.feature.search_title}">Busca e Filtragem:</strong> <span th:text="#{about.feature.search_text}">Texto</span></p>
+        </div>
+
+        <hr style="border-color: var(--ring); margin: 2rem 0;">
+
+        <h3 th:text="#{about.sitemap}">// Mapa de Navegação</h3>
+        <p style="color: var(--text-dim);" th:text="#{about.sitemap_desc}">Acesso rápido às principais seções do sistema:</p>
+
+        <ul class="sitemap">
+            <li>
+                <a th:href="@{/}" th:text="#{navbar.home}">Início</a>
+            </li>
+            <li>
+                <a th:href="@{/kits}" th:text="#{navbar.manager}">Gerenciador da Coleção</a>
+                <ul>
+                    <li style="color: var(--text-dim); padding: 8px 18px;" th:text="#{about.sitemap_kits_note}">↳ Cadastro, Edição e Visualização dos Kits</li>
+                </ul>
+            </li>
+            <li>
+                <a th:href="@{/relatorios}" th:text="#{navbar.reports}">Relatórios</a>
+            </li>
+            <li>
+                <a th:href="@{/sobre}" th:text="#{navbar.about}">Sobre</a>
+            </li>
+        </ul>
+    </section>
+</main>
+
+<footer th:replace="~{layout :: body/footer}"></footer>
+</body>
+</html>
+

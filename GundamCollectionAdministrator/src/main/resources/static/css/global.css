@@ -1,0 +1,452 @@
+/* ===================================================
+   Gundam RX-78-2 Theme v2.0 - "Hangar Control Panel"
+   =================================================== */
+
+/* --- Importação de Fontes Temáticas --- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono:wght@400;700&display=swap');
+
+/* --- Variáveis Globais (Root) --- */
+:root {
+    --bg-0: #0b1520;          /* Fundo principal escuro */
+    --bg-1: #0f1f2d;          /* Blocos */
+    --bg-2: #122636;
+    --text: #e6edf3;          /* Texto padrão */
+    --text-dim: #b9c2cc;      /* Texto secundário */
+
+    /* Paleta RX-78-2 */
+    --rx-blue: #2a57d3;
+    --rx-yellow: #f1c40f;
+    --rx-red: #e53935;
+    --rx-white: #f2f5f7;
+    --rx-green: #23a559;
+
+    /* Borda/Brilho */
+    --ring: rgba(42, 87, 211, .25);
+    --shadow: 0 10px 30px rgba(0,0,0,.3);
+}
+
+/* --- Animações --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Reset e Estilos Base --- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--bg-0);
+    /* Efeito de grid sutil no fundo */
+    background-image:
+            linear-gradient(rgba(42, 87, 211, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(42, 87, 211, 0.05) 1px, transparent 1px);
+    background-size: 35px 35px;
+    color: var(--text);
+    line-height: 1.6;
+}
+h1, h2, h3, h4, h5, h6, .brand {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1.1px;
+    color: var(--rx-white);
+}
+a {
+    color: var(--rx-blue);
+    text-decoration: none;
+}
+
+/* --- Layout Principal --- */
+.container {
+    max-width: 1200px;
+    padding: 0 20px;
+    margin: 24px auto;
+}
+.navbar .wrap, .footer .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ====== Animação de Entrada ====== */
+.hero, .container > .card, .container > h2, .container > .filters {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* ====== Componentes ====== */
+
+/* --- Navbar --- */
+.navbar {
+    position: sticky; top: 0; z-index: 50;
+    background: linear-gradient(180deg, rgba(15,31,45,.9), rgba(15,31,45,.7));
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--ring);
+}
+.navbar .wrap {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.brand {
+    font-weight: 800;
+    letter-spacing: .3px;
+    color: var(--text);
+}
+.brand b { color: var(--rx-blue); }
+.navlinks {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.navlinks a {
+    color: var(--text-dim);
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: all .2s ease;
+}
+.navlinks a:hover {
+    color: var(--rx-white);
+    background: rgba(255,255,255,.05);
+}
+.navlinks a.active {
+    color: var(--rx-white);
+    background: rgba(42,87,211,.18);
+    border: 1px solid rgba(42,87,211,.35);
+    text-shadow: 0 0 8px var(--rx-blue);
+}
+
+/* --- Hero (Página Home) --- */
+.hero {
+    max-width: 1200px;
+    margin: 28px auto;
+    padding: 0 20px 10px;
+}
+.hero .panel {
+    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    border: 1px solid var(--ring);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 28px;
+    text-align: center; /* Centraliza todo o conteúdo do painel */
+}
+.hero .panel h1 {
+    font-size: clamp(28px, 3.6vw, 44px);
+    margin: 0 0 10px;
+}
+.hero .panel p.lead {
+    color: var(--text-dim);
+    margin: 0 auto 18px;
+    max-width: 70ch;
+}
+.hero .actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center; /* Centraliza os botões */
+    margin-top: 28px;
+}
+.hero-image {
+    margin: 28px auto;
+    max-width: 70%; /* Imagem menor */
+}
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.4);
+}
+
+/* --- Botões --- */
+.btn {
+    --btn-bg: var(--rx-blue);
+    --btn-fg: var(--rx-white);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'Roboto Mono', monospace;
+    transition: all .2s ease;
+}
+.btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,.3);
+}
+.btn:active { transform: translateY(0); }
+.btn-blue   { --btn-bg: var(--rx-blue); }
+.btn-yellow { --btn-bg: var(--rx-yellow); color: #1b1b1b; }
+.btn-red    { --btn-bg: var(--rx-red); }
+.btn-green  { --btn-bg: var(--rx-green); }
+.btn-outline {
+    background: transparent;
+    color: var(--rx-blue);
+    border-color: rgba(42,87,211,.6);
+}
+.btn-outline:hover { background: rgba(42,87,211,.15); }
+.btn.btn-sm { font-size: .8rem; padding: 6px 10px; }
+
+/* --- Cards e Contêineres Gerais --- */
+.card {
+    background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+    border: 1px solid var(--ring);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 24px;
+    clip-path: polygon(0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+    transition: all .3s ease;
+}
+.card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(42, 87, 211, .5);
+}
+.card + .card { margin-top: 16px; }
+
+/* --- Tabelas --- */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--ring);
+}
+.table th, .table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--ring);
+}
+.table thead th {
+    background: rgba(42,87,211,.1);
+    text-align: left;
+    color: var(--text-dim);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.table tbody tr:hover { background: rgba(42,87,211,.05); }
+.table .actions { display: flex; gap: 8px; }
+.table .actions form { margin: 0; }
+
+/* --- Formulários --- */
+.form-grid {
+    display: grid;
+    gap: 16px 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--ring);
+    background: #0d1b28;
+    color: var(--text);
+    font-family: 'Roboto Mono', monospace;
+    transition: all .2s ease;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--rx-blue);
+    box-shadow: 0 0 10px 0 var(--rx-blue);
+}
+label {
+    color: var(--text-dim);
+    font-size: .9rem;
+    display: block;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+/* --- Filtros (list.html) --- */
+.filters {
+    background: linear-gradient(160deg, var(--bg-1), var(--bg-2));
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--ring);
+    margin-bottom: 24px;
+    clip-path: polygon(0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+}
+.filters form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    align-items: end;
+}
+.filters form .btn { width: 100%; }
+
+/* --- Ficha Técnica (details.html) --- */
+.spec-sheet {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--ring);
+    margin-bottom: 20px;
+}
+.spec-sheet p {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255,255,255,.1);
+}
+.spec-sheet p strong {
+    color: var(--text-dim);
+    font-weight: 400;
+}
+figure {
+    margin: 0;
+    position: relative;
+    border: 1px solid var(--ring);
+    border-radius: 12px;
+    overflow: hidden;
+}
+figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+figure figcaption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 8px 12px;
+    background: rgba(11, 21, 32, 0.8);
+    backdrop-filter: blur(4px);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-align: center;
+}
+
+/* --- Badges / Chips --- */
+.badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.badge {
+    font-size: .8rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: var(--text);
+    background: rgba(42,87,211,.15);
+    border: 1px solid rgba(42,87,211,.3);
+    font-weight: 700;
+    text-shadow: 0 0 5px var(--rx-blue);
+}
+
+/* --- Footer --- */
+.footer {
+    border-top: 1px solid var(--ring);
+    background: linear-gradient(180deg, rgba(18,38,54,.7), rgba(18,38,54,.5));
+    padding: 24px 20px;
+    margin-top: 40px;
+    text-align: center;
+}
+.footer .wrap {
+    color: var(--text-dim);
+}
+.footer .badges {
+    margin-top: 16px;
+}
+
+/* --- Componentes Específicos de Página --- */
+
+/* Container de Vídeo (details.html) */
+.video-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* Proporção 16:9 */
+    border-radius: 12px;
+    border: 1px solid var(--ring);
+}
+.video-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Mapa do Site (sobre.html) */
+.sitemap {
+    list-style: none;
+    padding-left: 0;
+    font-family: 'Orbitron', sans-serif;
+}
+.sitemap li { margin-top: 12px; }
+.sitemap a {
+    display: block;
+    background: rgba(42, 87, 211, .1);
+    border: 1px solid var(--ring);
+    padding: 14px 40px 14px 40px;
+    border-radius: 12px;
+    color: var(--text);
+    font-weight: 700;
+    transition: all 0.2s ease;
+    position: relative;
+}
+.sitemap a:hover {
+    transform: scale(1.02);
+    border-color: var(--rx-blue);
+    background: rgba(42, 87, 211, .2);
+}
+.sitemap a::before {
+    content: '→';
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rx-blue);
+    transition: all 0.2s ease;
+}
+.sitemap a:hover::before {
+    transform: translateY(-50%) scale(1.5);
+}
+.sitemap ul {
+    list-style: none;
+    padding-left: 30px;
+    margin-top: 12px;
+    border-left: 2px dashed var(--ring);
+}
+.sitemap ul a {
+    background: rgba(255, 255, 255, .03);
+    border-color: rgba(255, 255, 255, .08);
+}
+.sitemap ul a:hover { border-color: var(--text-dim); }
+.sitemap ul a::before {
+    content: '↳';
+    color: var(--text-dim);
+}
+
+/* --- Utilitários --- */
+.mt-2 { margin-top: 8px; }
+.mt-3 { margin-top: 12px; }
+.mt-4 { margin-top: 16px; }
+
+/* ======================================================
+   AJUSTE ESPECÍFICO PARA A GALERIA DE IMAGENS EM details.html
+   ====================================================== */
+
+/*
+  Esta regra seleciona um .form-grid que vem DEPOIS de um .spec-sheet.
+  Isso garante que o estilo só se aplique à galeria de imagens na página de detalhes.
+*/
+.spec-sheet + .form-grid {
+    /* Força a criação de até 3 colunas, fazendo as imagens ficarem menores */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/*
+  Esta regra garante que, se houver apenas UMA imagem na galeria,
+  ela não ocupe a largura toda, ficando centralizada e menor.
+*/
+.spec-sheet + .form-grid figure:only-child {
+    grid-column: 1 / -1; /* Ocupa todas as colunas do grid */
+    max-width: 60%; /* ... mas limitamos a largura máxima */
+    margin: 0 auto; /* E centralizamos */
+}

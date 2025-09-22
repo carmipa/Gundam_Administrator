@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" th:with="pageTitle=#{kits.form.title}">
+<head th:replace="~{layout :: head}"></head>
+<body class="rx78-theme">
+<header th:replace="~{layout :: body/header}"></header>
+
+<main class="container">
+    <a th:href="@{/kits}" style="margin-bottom: 1rem; display: inline-block;" th:text="#{kits.details.back_to_list}">← Voltar para a lista</a>
+    <h2 th:text="${kit.id == null} ? #{kits.form.new_kit_heading} : #{kits.form.edit_kit_heading}">Formulário</h2>
+
+    <section class="card">
+        <form th:action="${kit.id == null} ? @{/kits} : @{|/kits/${kit.id}|}" method="post" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div>
+                    <label for="modelo" th:text="#{kits.form.model_label}">Modelo</label>
+                    <input id="modelo" type="text" name="modelo" required maxlength="200" th:placeholder="#{kits.form.model_placeholder}" th:value="${kit.modelo}" class="input">
+                </div>
+                <div>
+                    <label for="fabricante" th:text="#{kits.form.manufacturer_label}">Fabricante</label>
+                    <input id="fabricante" type="text" name="fabricante" required maxlength="100" th:placeholder="#{kits.form.manufacturer_placeholder}" th:value="${kit.fabricante != null ? kit.fabricante : 'Bandai'}" class="input">
+                </div>
+                <div>
+                    <label for="grade" th:text="#{kits.form.grade_label}">Grade</label>
+                    <select id="grade" name="grade.id" required class="input">
+                        <option th:each="g : ${grades}" th:value="${g.id}" th:text="${g.nome}" th:selected="${kit.grade != null and kit.grade.id == g.id}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="escala" th:text="#{kits.form.scale_label}">Escala</label>
+                    <select id="escala" name="escala.id" class="input">
+                        <option th:each="e : ${escalas}" th:value="${e.id}" th:text="${e.rotulo}" th:selected="${kit.escala != null and kit.escala.id == e.id}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="altura" th:text="#{kits.form.height_label}">Altura Padrão</label>
+                    <select id="altura" name="alturaPadrao.id" class="input">
+                        <option th:each="a : ${alturas}" th:value="${a.id}" th:text="${a.descricao}" th:selected="${kit.alturaPadrao != null and kit.alturaPadrao.id == a.id}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="universo" th:text="#{kits.form.universe_label}">Universo / Linha do Tempo</label>
+                    <select id="universo" name="universo.id" class="input">
+                        <option th:each="u : ${universos}" th:value="${u.id}" th:text="${u.sigla + ' — ' + u.nome}" th:selected="${kit.universo != null and kit.universo.id == u.id}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="preco" th:text="#{kits.form.price_label}">Preço (R$)</label>
+                    <input id="preco" type="number" inputmode="decimal" min="0" step="0.01" name="preco" th:placeholder="#{kits.form.price_placeholder}" th:value="${kit.preco}" class="input">
+                </div>
+                <div>
+                    <label for="dataCompra" th:text="#{kits.form.purchase_date_label}">Data da Compra</label>
+                    <input id="dataCompra" type="date" name="dataCompra" th:value="${kit.dataCompra}" th:placeholder="#{kits.form.purchase_date_placeholder}" class="input">
+                </div>
+                <div>
+                    <label for="capaUrl" th:text="#{kits.form.cover_url_label}">URL da Capa</label>
+                    <input id="capaUrl" type="url" name="capaUrl" th:placeholder="#{kits.form.cover_url_placeholder}" th:value="${kit.capaUrl}" class="input">
+                </div>
+                <div>
+                    <label for="video" th:text="#{kits.form.assembly_video_url_label}">Vídeo da Montagem (YouTube)</label>
+                    <input id="video" type="url" name="videoMontagemUrl" th:placeholder="#{kits.form.assembly_video_url_placeholder}" th:value="${kit.videoMontagemUrl}" class="input">
+                </div>
+                <div>
+                    <label for="horas" th:text="#{kits.form.assembly_hours_label}">Horas de Montagem</label>
+                    <input id="horas" type="number" name="horasMontagem" min="0" step="1" th:placeholder="#{kits.form.assembly_hours_placeholder}" th:value="${kit.horasMontagem}" class="input">
+                </div>
+                <div>
+                    <label for="fotoCaixa" th:text="#{kits.form.box_photo_label}">Foto da Caixa</label>
+                    <input id="fotoCaixa" type="file" name="fotoCaixaFile" accept="image/*" class="input">
+                </div>
+                <div>
+                    <label for="fotoMontagem" th:text="#{kits.form.assembly_photo_label}">Foto da Montagem</label>
+                    <input id="fotoMontagem" type="file" name="fotoMontagemFile" accept="image/*" class="input">
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label for="obs" th:text="#{kits.form.observation_label}">Observações // Log de Montagem</label>
+                <textarea id="obs" name="observacao" rows="4" th:placeholder="#{kits.form.observation_placeholder}" th:text="${kit.observacao}" class="input"></textarea>
+            </div>
+
+            <div class="actions mt-4" style="display: flex; gap: 1rem;">
+                <button class="btn btn-blue" type="submit" th:text="#{kits.form.save_button}">Salvar</button>
+                <a th:href="@{/kits}" class="btn btn-outline" th:text="#{kits.form.cancel_button}">Cancelar</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer th:replace="~{layout :: body/footer}"></footer>
+</body>
+</html>

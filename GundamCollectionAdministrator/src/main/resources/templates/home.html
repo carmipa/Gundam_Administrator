@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" th:with="pageTitle=#{app.title}">
+<head th:replace="layout :: head"></head>
+<body class="rx78-theme">
+<header th:replace="layout :: body/header"></header>
+
+<main class="hero">
+    <section class="panel">
+        <h1 th:text="#{home.headline}">Projeto Diamante — Gestor de Coleção de Gundam</h1>
+
+        <p class="lead" th:text="#{home.lead}">Cadastre seus Gunpla...</p>
+
+        <div class="hero-image">
+            <img th:src="@{/images/gundam.png}" alt="Gundam Freedom em destaque no espaço, rodeado por outros mobile suits em uma batalha espacial.">
+        </div>
+
+        <div class="actions">
+            <a class="btn btn-blue" th:href="@{/kits}" th:text="#{home.open}">Abrir o Gerenciador da Coleção</a>
+            <a class="btn btn-outline" th:href="@{/sobre}" th:text="#{home.about}">Sobre o Projeto</a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="layout :: body/footer"></footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gundam
+    username: gundam
+    password: gundam
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc.lob.non_contextual_creation: true
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 30MB
+
+flyway:
+  enabled: true
+  locations: classpath:db/migration
+
+app:
+  storage:
+    root: uploads          # pasta para armazenar fotos
+server:
+  port: 8080
