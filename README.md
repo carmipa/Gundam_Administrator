@@ -2,7 +2,6 @@
 
 <div align="center">
   <img src="./gundam.png" alt="Gundam Collection Administrator" width="400" />
-<<<<<<< HEAD
 </div>>
 =======
 </div>
