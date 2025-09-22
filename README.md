@@ -53,6 +53,10 @@ Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, fi
 
 ## Arquitetura
 
+---
+
+## Arquitetura
+
 ```mermaid
 flowchart TB
     subgraph "Interface do Usuário (Web UI com Thymeleaf)"
