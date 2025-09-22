@@ -1,7 +1,7 @@
 # Gundam Collection Administrator
 
 <div align="center">
-  <img src="./assets/gundam.png" alt="Gundam Collection Administrator" width="400" />
+  <img src="./gundam.png" alt="Gundam Collection Administrator" width="400" />
 </div>
 
 [![Java](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)](https://adoptium.net)
