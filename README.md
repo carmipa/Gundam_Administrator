@@ -53,10 +53,6 @@ Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, fi
 
 ## Arquitetura
 
----
-
-## Arquitetura
-
 ```mermaid
 flowchart TB
     subgraph "Interface do Usuário (Web UI com Thymeleaf)"
@@ -100,8 +96,6 @@ flowchart TB
     F1 --"Gerencia schema do"--> DB
     Cache -.-> S1
     Dk --"Orquestra container do"--> DB
-
----
 
 ## Estrutura do Projeto
 
