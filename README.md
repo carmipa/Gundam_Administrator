@@ -12,7 +12,8 @@
 [![Gradle](https://img.shields.io/badge/Gradle-8.x-02303A?logo=gradle&logoColor=white)](https://gradle.org/)
 [![Docker Compose](https://img.shields.io/badge/Docker%20Compose-OK-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 
-Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, filtros, catálogos fixos e relatórios simples. UI com tema inspirado no **RX‑78‑2**, i18n (PT/EN/JA) e uploads estáticos.
+Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, filtros, catálogos fixos e relatórios simples.  
+UI com tema inspirado no RX‑78‑2, i18n (PT/EN/JA) e uploads estáticos.
 
 ---
 
@@ -41,241 +42,239 @@ Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, fi
 
 ## Dados do Projeto
 
-- **Nome:** *Gundam Collection Administrator*
-- **Stack:** Spring Boot 3.5, Java 17, Thymeleaf, Spring Data JPA, Flyway, PostgreSQL, Gradle
-- **Porta padrão:** `8080`
-- **Banco de dados (dev):** `postgres:latest` via Docker Compose, porta `5432` (db/name/user/pass `gundam`)
-- **Diretório de uploads:** `uploads/` (servido em `/uploads/**`)
-- **Internacionalização (i18n):** mensagens em `messages.properties` (pt-BR), `messages_en.properties`, `messages_ja.properties` com alternância via parâmetro `?lang=`
+- Nome: **Gundam Collection Administrator**
+- Stack: Spring Boot 3.5, Java 17, Thymeleaf, Spring Data JPA, Flyway, PostgreSQL, Gradle
+- Porta padrão: `8080`
+- Banco de dados (dev): `postgres:latest` via Docker Compose, porta `5432` (db/name/user/pass `gundam`)
+- Diretório de uploads: `uploads/` (servido em `/uploads/**`)
+- Internacionalização (i18n): mensagens em `messages.properties` (pt-BR), `messages_en.properties`, `messages_ja.properties` com alternância via parâmetro `?lang=`
 
 ---
 
 ## Arquitetura
 
-> Diagrama em **Mermaid** válido (corrigido para não quebrar renderização).
-
 ```mermaid
 flowchart TB
-  %% Camada Web
-  subgraph Web[Web UI (Thymeleaf)]
-    UI1[Home]
-    UI2[Kits List/Filters]
-    UI3[Form Novo/Editar]
-    UI4[Detalhes]
-    UI5[Recursos Estáticos (CSS / Uploads)]
-  end
 
-  %% Camada MVC
-  subgraph MVC[Spring MVC]
-    C1[Controllers]
-    S1[Services]
-    V1[Specifications]
-  end
+%% Camada Web
+subgraph Web["Web UI (Thymeleaf)"]
+  UI1[Home]
+  UI2["Kits List/Filters"]
+  UI3["Form Novo/Editar"]
+  UI4[Detalhes]
+  UI5["Recursos Estáticos (CSS/Uploads)"]
+end
 
-  %% Camada de Dados
-  subgraph Data[Data Layer]
-    R1[JPA Repositories]
-    DB[(PostgreSQL)]
-  end
+%% Camada MVC
+subgraph MVC["Spring MVC"]
+  C1[Controllers]
+  S1[Services]
+  V1[Specifications]
+end
 
-  %% Fluxos
-  UI1 --> C1
-  UI2 --> C1
-  UI3 --> C1
-  UI4 --> C1
-  C1 --> S1 --> R1 --> DB
-  S1 --> V1
+%% Camada Data
+subgraph Data["Data Layer"]
+  R1["JPA Repositories"]
+  DB[(PostgreSQL)]
+end
 
-  %% Infra
-  subgraph Infra[Infra]
-    F1[Flyway]
-    Cache[Spring Cache]
-    Dk[Docker Compose]
-  end
+%% Ligações
+UI1 --> C1
+UI2 --> C1
+UI3 --> C1
+UI4 --> C1
+C1 --> S1 --> R1 --> DB
+S1 --> V1
 
-  F1 --> DB
-  Cache --> S1
-  Dk --> DB
+%% Infra
+subgraph Infra["Infra"]
+  F1[Flyway]
+  Cache[Spring Cache]
+  Dk[Docker Compose]
+end
+
+F1 --> DB
+Cache --> S1
+Dk --> DB
 ```
 
 ---
 
 ## Estrutura do Projeto
 
-```
-src/
-├─ main/
-│  ├─ java/br/com/gundam/
-│  │  ├─ GundamApplication.java           # bootstrap
-│  │  ├─ config/                          # WebConfig, CacheConfig
-│  │  ├─ controller/                      # HomeController, GundamKitController
-│  │  ├─ service/                         # GundamKitService, FileStorageService
-│  │  ├─ repository/                      # Spring Data JPA repositories
-│  │  ├─ spec/                            # Specifications para filtros dinâmicos
-│  │  └─ model/                           # Entidades JPA (GundamKit, Grade, Escala, AlturaPadrao, Universo)
-│  └─ resources/
-│     ├─ templates/                       # Thymeleaf (layout, home, kits/*, sobre, relatorios)
-│     ├─ static/css/                      # global.css
-│     ├─ db/migration/                    # V1..V5 (Flyway)
-│     └─ application.yml                  # configuração
-├─ test/                                  # testes (quando aplicável)
-compose.yaml                               # serviço postgres
-build.gradle(.kts)                         # build e dependências
-README.md
-```
+- `src/main/java/br/com/gundam`
+  - `GundamApplication.java` — bootstrap da aplicação
+  - `config/` — `WebConfig` (recursos estáticos, i18n, locale), `CacheConfig`
+  - `controller/` — `HomeController`, `GundamKitController`
+  - `service/` — `GundamKitService`, `FileStorageService`
+  - `repository/` — repositórios JPA (inclui queries de relatório)
+  - `spec/` — Specifications para filtros dinâmicos
+  - `model/` — entidades JPA (GundamKit, Grade, Escala, AlturaPadrao, Universo)
+- `src/main/resources`
+  - `templates/` — views Thymeleaf (`layout.html`, `home.html`, `kits/*`, `sobre.html`, `relatorios.html`)
+  - `static/css/` — estilos (`global.css`)
+  - `db/migration/` — migrações Flyway `V1..V5`
+  - `application.yml` — configuração da aplicação
+- `compose.yaml` — serviço `postgres`
+- `build.gradle` — dependências e plugins
 
 ---
 
 ## Programação (Java Spring)
 
-- **Controllers (Spring MVC):** tratam rotas, populam `Model` e retornam templates.
+- **Controllers (Spring MVC)**: tratam rotas, populam `Model` e retornam nomes de templates.
   - `GundamKitController` cobre CRUD e filtros com paginação.
-  - `HomeController` entrega páginas estáticas e relatório financeiro.
-- **Services:** regras de negócio e cache.
-  - `GundamKitService` utiliza `@Cacheable`/`@CacheEvict` para catálogos e itens; monta `Specification`; agrega dados para relatório.
-  - `FileStorageService` padroniza salvamento de imagens e nomes de arquivos sob `app.storage.root`.
-- **Repositories:** `JpaRepository` + `JpaSpecificationExecutor` e queries JPQL para `SUM / AVG / MIN / MAX`.
-- **Specifications:** composição dinâmica (`modelo like`, `gradeId`, `universoId`, `dataCompra between`).  
-- **Config:** `CacheConfig` (ConcurrentMapCacheManager), `WebConfig` (static `/uploads/**`, i18n via cookie + `?lang=`).
-- **Validações:** Bean Validation (ex.: `@NotBlank`, `@DecimalMin`, `@Digits`).  
-- **Migrações:** Flyway habilitado; `ddl-auto: validate` garante schema 100% via SQL versionado.
+  - `HomeController` entrega páginas estáticas e o relatório financeiro.
+- **Services**: concentram regras de negócio e cache.
+  - `GundamKitService` usa `@Cacheable`/`@CacheEvict` para catálogos e itens; monta `Specification` para busca; agrega dados para relatório.
+  - `FileStorageService` padroniza salvamento de imagens e nomes de arquivos, sob `app.storage.root`.
+- **Repositories (Spring Data JPA)**: CRUD + `JpaSpecificationExecutor` + queries JPQL para relatório (`SUM`, `AVG`, `MAX/MIN`).
+- **Specifications**: composição dinâmica para filtros (`modelo like`, `gradeId`, `universoId`, `dataCompra between`).
+- **Configurações**:
+  - `CacheConfig` com `ConcurrentMapCacheManager`.
+  - `WebConfig` mapeia `/uploads/**`, resolve locale via cookie e permite troca com `?lang=`.
+- **Validações**: Bean Validation em entidades (ex.: `@NotBlank`, `@DecimalMin`, `@Digits`).
+- **Migrações**: Flyway habilitado; `ddl-auto: validate` garante schema via SQL versionado.
 
 ---
 
 ## Funcionamento da Parte Web
 
-- **Templates Thymeleaf:** layout base `layout.html` (head/header/footer). Páginas herdam via `th:replace`.
-- **Navegação:** Home (`/`), Gerenciador (`/kits`), Relatórios (`/relatorios`), Sobre (`/sobre`). Destaque do link ativo pelo `requestURI`.
-- **Listagem com filtros:** formulário `GET /kits` envia `modelo`, `gradeId`, `universoId`, `de`, `ate`, mais `page`/`size`. Tabela com paginação.
-- **Formulário de Kit:** create/update no mesmo template, selects de catálogos, upload de imagens (caixa/montagem). Bean Validation exibindo mensagens i18n.
-- **Uploads:** imagens em `uploads/` (persistidas no campo URL da entidade) e servidas por `/uploads/**`.
-- **I18n:** textos em `messages*.properties`. Troca com `?lang=pt-BR|en|ja` (persistência via cookie).
-- **Estática:** tema RX‑78‑2 em `static/css/global.css` e imagem `static/images/gundam.png`.
+- **Templates Thymeleaf**: layout base em `layout.html` com fragmentos `head`, `header`, `footer`. Páginas herdam via `th:replace`.
+- **Navegação**: Home (`/`), Gerenciador (`/kits`), Relatórios (`/relatorios`), Sobre (`/sobre`). Destaque de link ativo via `requestURI`.
+- **Listagem com filtros**: formulário GET em `/kits` que envia `modelo`, `gradeId`, `universoId`, `de`, `ate`, além de `page/size` para paginação. Tabela mostra contagem e paginação.
+- **Formulário de Kit**: create/update no mesmo template, com selects preenchidos pelos catálogos e suporte a upload de imagens (caixa/montagem). Campos validados pelo Bean Validation.
+- **Uploads**: imagens salvas em `uploads/` e expostas em `/uploads/**`. URLs gravadas nos campos do modelo e utilizadas nas views.
+- **I18n**: textos extraídos de `messages*.properties`. Troca de idioma com `?lang=pt-BR|en|ja` persistida em cookie.
+- **Estática**: tema visual em `static/css/global.css` e imagem `static/images/gundam.png`.
 
 ---
 
 ## Funcionalidades
 
-- CRUD de Kits (modelo, fabricante, preço, data, horas, URLs e fotos de capa/caixa/montagem)
-- Catálogos fixos: **Grades**, **Escalas**, **Alturas Padrão**
-- Universo/Linha do tempo (UC, CE, AC, …) e **Observações** longas
-- **Filtros**: modelo (like), grade, universo, período de compra, paginação
-- **Uploads** de imagens com exposição via `/uploads/**`
+- Cadastro completo de Kits (modelo, fabricante, preço, data, horas, urls, fotos de capa/caixa/montagem)
+- Catálogos fixos: Grades, Escalas, Alturas Padrão
+- Universo/Linha do Tempo (UC, CE, AC, etc.) e Observações longas
+- Filtros na listagem:
+  - Modelo (like), Grade, Universo, Período de Compra (de/até – opcionais), Paginação
+- Upload de imagens (salvas em `uploads/` e servidas em `/uploads/**`)
 - Páginas: Home, Listagem, Formulário (novo/editar), Detalhes, Sobre, Relatórios (placeholder)
-- **Flyway** com *seed* inicial e **Cache** simples para listas
+- Migrações (Flyway) e dados seed
+- Cache simples para listas de catálogos
 
 ---
 
 ## Modelagem de Domínio
 
-**Entidades principais:**
+Entidades principais:
 
-- `GundamKit` (kit da coleção)  
-  Relaciona-se com `Grade`, `Escala`, `AlturaPadrao`, `Universo`.  
-  Campos: `modelo`, `fabricante`, `preco`, `dataCompra`, `horasMontagem`, URLs/fotos, `observacao`.
+- `GundamKit` (kit da coleção)
+  - relaciona-se com `Grade`, `Escala`, `AlturaPadrao` e `Universo`
+  - campos: `modelo`, `fabricante`, `preco`, `dataCompra`, `horasMontagem`, URLs/fotos, `observacao`
 - `Grade` (MG, HG, RG, …)
 - `Escala` (1/144, 1/100…)
 - `AlturaPadrao` (faixas de altura)
 - `Universo` (UC, CE, AC… com `sigla`, `principaisSeries`, `descricao`)
 
-Validações (Bean Validation) em `GundamKit` garantem integridade (ex.: `@NotBlank`, `@Digits`, `@DecimalMin`).
+Validações (Bean Validation) em `GundamKit` para garantir integridade (ex.: `@NotBlank`, `@Digits`, `@DecimalMin`).
 
 ---
 
 ## Requisitos e Setup
 
-- **Java 17+**
-- **Gradle Wrapper** (já incluso)
-- **Docker + Docker Compose** (para PostgreSQL)
+- Java 17+
+- Gradle Wrapper (já incluso)
+- Docker + Docker Compose (para o PostgreSQL)
 
-**Subir banco (Docker Compose):**
+Iniciar banco (Docker Compose):
+
 ```bash
 docker compose up -d
 ```
 
-**Config da aplicação (`src/main/resources/application.yml`):**
+Config app (`src/main/resources/application.yml`):
+
 - Datasource: `jdbc:postgresql://localhost:5432/gundam` (user/pass `gundam`)
 - Flyway: habilitado e apontando para `classpath:db/migration`
-- Spring MVC: locale resolver via cookie; mapeamento `/uploads/**`
 
 ---
 
 ## Execução
 
-**Via Gradle (recomendado):**
+Via Gradle (recomendado):
+
 ```bash
 # Windows
 .\gradlew.bat clean build -x test
 .\gradlew.bat bootRun
 ```
 
-A primeira execução cria o schema e aplica `V1..V5`.
+Dica: a primeira execução cria schema e aplica V1..V5.
 
-> **Erros de checksum do Flyway?**  
-> Rode uma vez:
+> Se você alterou arquivos de migração já aplicados e recebeu erro de checksum, execute uma vez:
+
 ```bash
 .\gradlew.bat bootRun --args="--flyway.repair=true"
 ```
 
-> **IDE usando `bin/` no classpath e conflitando com `build/`?**  
-> Apague `bin/` e configure a IDE para usar o Gradle como *builder/classpath*.
+> Caso a sua IDE use `bin/` no classpath e esteja conflitando com `build/`, apague `bin/` e configure para usar Gradle como builder/classpath.
 
 ---
 
 ## Rotas Principais
 
-- **Home:** `GET /`
-- **Kits:**
-  - Listagem: `GET /kits?modelo=&gradeId=&universoId=&de=&ate=&page=&size=`
+- Home: `GET /`
+- Kits:
+  - Listagem com filtros: `GET /kits?modelo=&gradeId=&universoId=&de=&ate=&page=&size=`
   - Novo: `GET /kits/novo`
-  - Salvar: `POST /kits` *(multipart para fotos)*
+  - Salvar: `POST /kits` (multipart para fotos)
   - Detalhes: `GET /kits/{id}`
-  - Editar: `GET /kits/{id}/editar`
+  - Editar (form): `GET /kits/{id}/editar`
   - Atualizar: `POST /kits/{id}`
   - Excluir: `POST /kits/{id}/deletar`
-- **Utilitários:** `/sobre`, `/relatorios`
+- Páginas utilitárias: `/sobre`, `/relatorios`
 
 ---
 
 ## Camadas e Pacotes
 
-- `br.com.gundam.controller` – MVC controllers (Kits, Home)  
-- `br.com.gundam.service` – regras de negócio, cache  
-- `br.com.gundam.repository` – repositórios JPA  
-- `br.com.gundam.model` – entidades JPA  
-- `br.com.gundam.spec` – Specifications (filtros)  
-- `br.com.gundam.config` – Cache e Web config (uploads estáticos)  
-- `resources/templates` – Thymeleaf (layout + páginas)  
-- `resources/static/css` – estilos (tema RX‑78‑2)  
+- `br.com.gundam.controller` – MVC controllers (Kits, Home)
+- `br.com.gundam.service` – regras de negócio, cache
+- `br.com.gundam.repository` – repositórios JPA
+- `br.com.gundam.model` – entidades JPA
+- `br.com.gundam.spec` – Specifications para filtros dinâmicos
+- `br.com.gundam.config` – Cache e Web config (static uploads)
+- `resources/templates` – Thymeleaf (layout + páginas)
+- `resources/static/css` – estilos do tema RX‑78‑2
 
 ---
 
 ## Migrações de Banco
 
-- `V1__create_tables.sql` – tabelas base (`grade`, `escala`, `altura_padrao`, `gundam_kits`)
-- `V2__seed_reference_data.sql` – *seeds* de catálogos
+- `V1__create_tables.sql` – tabelas base (grade, escala, altura_padrao, gundam_kits)
+- `V2__seed_reference_data.sql` – seeds para catálogos
 - `V4__universo_and_observacao.sql` – tabela `universo`, colunas `universo_id` e `observacao` em `gundam_kits`
-- `V5__seed_universos.sql` – *seeds* dos universos (UC, CE, AC… AS)
+- `V5__seed_universos.sql` – seeds dos universos (UC, CE, AC… AS)
 
-> **Boa prática:** não edite migrações já aplicadas. Crie novas `Vx__...sql` para mudanças.
+> Observação: não edite migrações já aplicadas em produção. Crie uma nova `Vx__...sql` para cada mudança.
 
 ---
 
 ## Configurações
 
-- **Cache:** `ConcurrentMapCacheManager`  
-  Caches: `grades_all`, `escalas_all`, `alturas_all`, `universos_all`, `kit_by_id`
-- **Uploads:**  
-  `FileStorageService` salva em `app.storage.root` (padrão `uploads/`)  
-  Servido em `/uploads/**` via `WebConfig`
+- Cache simples com `ConcurrentMapCacheManager`:
+  - caches: `grades_all`, `escalas_all`, `alturas_all`, `universos_all`, `kit_by_id`
+- Uploads:
+  - `FileStorageService` salva em diretório configurável (`app.storage.root`, por padrão `uploads/`)
+  - Servido em `/uploads/**` via `WebConfig`
 
 ---
 
 ## Troubleshooting
 
-- **Flyway checksum:** use `--flyway.repair=true` ou recrie o schema local.  
-- **Artefatos antigos (`bin/`):** apague `bin/` e force a IDE a usar Gradle.  
-- **LazyInitialization em views:** utilize `EAGER` quando necessário em `GundamKit` para relacionamentos mostrados no template.
+- Erro Flyway checksum: rode uma vez `--flyway.repair=true` ou resete o schema (ambiente local) e suba novamente.
+- IDE executando com `bin/` (artefatos antigos): apague `bin/`, configure para usar Gradle como builder/classpath.
+- LazyInitialization em views: relacionamentos usados na view estão como `EAGER` em `GundamKit`.
 
 ---
 
@@ -290,4 +289,8 @@ A primeira execução cria o schema e aplica `V1..V5`.
 
 ## Licença
 
-Este projeto é distribuído sob a licença MIT. Veja `LICENSE` (se disponível).
+MIT (se aplicável).
+
+---
+
+Made with ❤️ using Spring Boot + Thymeleaf.
