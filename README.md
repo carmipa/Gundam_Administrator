@@ -25,18 +25,6 @@ Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, fi
   - [Dados do Projeto](#dados-do-projeto)
   - [Arquitetura](#arquitetura)
   - [Estrutura do Projeto](#estrutura-do-projeto)
-  - [Programação (Java Spring)](#programação-java-spring)
-  - [Funcionamento da Parte Web](#funcionamento-da-parte-web)
-  - [Funcionalidades](#funcionalidades)
-  - [Modelagem de Domínio](#modelagem-de-domínio)
-  - [Requisitos e Setup](#requisitos-e-setup)
-  - [Execução](#execução)
-  - [Rotas Principais](#rotas-principais)
-  - [Camadas e Pacotes](#camadas-e-pacotes)
-  - [Migrações de Banco](#migrações-de-banco)
-  - [Configurações](#configurações)
-  - [Troubleshooting](#troubleshooting)
-  - [Roadmap](#roadmap)
 
 ---
 
