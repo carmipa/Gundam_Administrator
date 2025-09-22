@@ -3,9 +3,8 @@
 <div align="center">
   <img src="./gundam.png" alt="Gundam Collection Administrator" width="400" />
 </div>>
-=======
-</div>
->>>>>>> 3d6e88ee745fbaac8b253c8b1d8b33a963c523e6
+
+
 
 [![Java](https://img.shields.io/badge/Java-17-007396?logo=openjdk&logoColor=white)](https://adoptium.net)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.x-6DB33F?logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
