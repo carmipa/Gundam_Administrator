@@ -55,43 +55,47 @@ Gestor completo de coleção de Gunpla (Gundam), com cadastro de kits, fotos, fi
 
 ```mermaid
 flowchart TB
-  subgraph Web[Web UI (Thymeleaf)]
-    UI1[Home]-->/kits
-    UI2[Kits List/Filters]
-    UI3[Form Novo/Editar]
-    UI4[Detalhes]
-    UI5[Recursos Estáticos (CSS / Uploads)]
-  end
+    subgraph "Interface do Usuário (Web UI com Thymeleaf)"
+        UI1["Página Home"]
+        UI2["Lista de Kits / Filtros"]
+        UI3["Formulário (Novo/Editar)"]
+        UI4["Página de Detalhes"]
+        UI5["Recursos Estáticos (CSS / Uploads)"]
+    end
 
-  subgraph MVC[Spring MVC]
-    C1[Controllers]
-    S1[Services]
-    V1[Specifications]
-  end
+    subgraph "Aplicação (Spring MVC)"
+        C1["Controllers"]
+        S1["Services (Regras de Negócio)"]
+        V1["Specifications (Filtros)"]
+    end
 
-  subgraph Data[Data]
-    R1[JPA Repositories]
-    DB[(PostgreSQL)]
-  end
+    subgraph "Persistência (Data)"
+        R1["JPA Repositories"]
+        DB[(PostgreSQL)]
+    end
 
-  UI1 --> C1
-  UI2 --> C1
-  UI3 --> C1
-  UI4 --> C1
+    subgraph "Infraestrutura (Infra)"
+        F1["Flyway (Migrations)"]
+        Cache["Spring Cache"]
+        Dk["Docker Compose"]
+    end
 
-  C1 --> S1 --> R1 --> DB
-  S1 --> V1
+    %% Conexões do Fluxo Principal
+    UI1 --> C1
+    UI2 --> C1
+    UI3 --> C1
+    UI4 --> C1
 
-  subgraph Infra[Infra]
-    F1[Flyway]
-    Cache[Spring Cache]
-    Dk[Docker Compose]
-  end
+    C1 --"Chama"--> S1
+    S1 --"Utiliza"--> R1
+    S1 --"Cria"--> V1
+    V1 --"Usado por"--> R1
+    R1 --"Acessa"--> DB
 
-  F1 --> DB
-  Cache --> S1
-  Dk --> DB
-```
+    %% Conexões da Infraestrutura
+    F1 --"Gerencia schema do"--> DB
+    Cache -.-> S1
+    Dk --"Orquestra container do"--> DB
 
 ---
 
